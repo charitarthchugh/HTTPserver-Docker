@@ -10,9 +10,9 @@ import java.util.Date;
  */
 public class HTTPserver {
 
-    public static void main(String args[]) throws IOException {
-
-        ServerSocket server = new ServerSocket(8080);
+    public static void main(String args[])  {
+    try{
+        ServerSocket server = new ServerSocket(3999);
         System.out.println("Listening for connection on port 8080 ....");
         while (true) {
             try (Socket socket = server.accept()) {
@@ -21,5 +21,9 @@ public class HTTPserver {
                 socket.getOutputStream().write(httpResponse.getBytes("UTF-8"));
             }
         }
+    } catch (Throwable e){
+        e.printStackTrace();
+    }
+
     }
 }
