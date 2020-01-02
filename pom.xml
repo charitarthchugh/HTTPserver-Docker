@@ -6,9 +6,59 @@
 
     <groupId>dev.charitarthchugh</groupId>
     <artifactId>HTTPserver</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <version>1.01-SNAPSHOT</version>
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <imagename>vinaycharitarth/${project.artifactId}</imagename>
+                    <baseimage>java:8</baseimage>
+                    <maintainer>Charitarth Chugh (2p2107032@gmail.com)</maintainer>
+                    <entrypoint>
+                        ["java", "-jar", "/opt/${project.build.finalName}.jar"]
+                    </entrypoint>
+
+                    <serverid>docker-hub</serverid>
+                    <registryurl>https://index.docker.io/v1/</registryurl>
+
+                    <resources>        <!-- Dockerfile building resources -->
+                        <resource>
+                            <targetpath>/opt/</targetpath>
+                            <directory>${project.build.directory}</directory>
+                            <excludes>
+                                <exclude>target/**/*</exclude>
+                                <exclude>pom.xml</exclude>
+                                <exclude>*.iml</exclude>
+                            </excludes>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
