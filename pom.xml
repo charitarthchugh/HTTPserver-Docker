@@ -48,7 +48,6 @@
                     <resources>        <!-- Dockerfile building resources -->
                         <resource>
                             <targetpath>/opt/</targetpath>
-                            <directory>${project.build.directory}</directory>
                             <excludes>
                                 <exclude>target/**/*</exclude>
                                 <exclude>pom.xml</exclude>
